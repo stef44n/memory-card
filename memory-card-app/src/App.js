@@ -1,23 +1,22 @@
 // import logo from "./logo.svg";
 // import './App.css';
 import Header from "./components/Header";
+import Card from "./components/Card";
 
 export default function App() {
+    //set current score
+    //set highest/best score
+    //render cards on load and re-render on each click in randomised order
+
     return (
         <div className="App">
             <Header />
             {/* <img src={logo} className="App-logo" alt="logo" /> */}
-            <p>
-                Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Learn React
-            </a>
+            <main>
+                <div className="card-placement">
+                    <Card />
+                </div>
+            </main>
         </div>
     );
 }
