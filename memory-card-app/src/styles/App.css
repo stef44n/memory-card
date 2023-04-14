@@ -1,0 +1,4 @@
+.card-placement {
+    display: flex;
+    justify-content: space-around;
+}
