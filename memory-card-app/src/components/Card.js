@@ -1,9 +1,11 @@
-export default function Card() {
+import "../styles/Card.css";
+
+export default function Card(props) {
     //set card state here
     return (
-        <div>
+        <div className="card">
             {/*render card*/}
-            <p>render card here</p>
+            <img className="card-image" src={props.imageSource} alt="card" />
         </div>
     );
 }
