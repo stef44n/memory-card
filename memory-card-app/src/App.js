@@ -1,4 +1,3 @@
-// import logo from "./logo.svg";
 import "./styles/App.css";
 import Header from "./components/Header";
 import Card from "./components/Card";
@@ -20,18 +19,45 @@ export default function App() {
 
     console.table(initialRenderArray);
 
-    const cardElements = initialRenderArray.map(
-        (country) => (
-            <Card
-                imageSource={country.flag}
-                key={country.id}
-                // handleClick={handleClick}
-                value={country.wasClicked}
-                clicked={country.id}
-            />
-        )
-        // console.log(country.flag)
-    );
+    const cardElements = initialRenderArray.map((country) => (
+        <Card
+            imageSource={country.flag}
+            key={country.id}
+            handleClick={handleClick}
+            clicked={`${country.wasClicked}`}
+            // value={`${country.wasClicked}`}
+            // defaultValue={props.defVal}
+        />
+    ));
+
+    function updateScores(bool) {
+        // if (bool === false) {
+        setCurrentScore((prevScore) => (bool === "false" ? prevScore + 1 : 0));
+        // } else {
+        //     setCurrentScore(0);
+        // }
+
+        if (currentScore >= highScore && bool === "false") {
+            updateHighScore();
+        }
+    }
+
+    function updateHighScore() {
+        setHighScore((prevScore) => prevScore + 1);
+    }
+
+    function handleClick(event) {
+        const bool = event.currentTarget.getAttribute("value");
+        updateScores(bool);
+        // renderFlags();
+
+        console.log(event.target);
+        // console.log(event.currentTarget.getAttribute("value"));
+        // console.log(bool);
+        // console.log(event.target["data-value"]);
+        console.table(`%c** ${bool} **`, "background: lightgreen");
+    }
+    console.log(currentScore, highScore);
 
     return (
         <div className="App">
@@ -43,8 +69,6 @@ export default function App() {
                     <p>High score : {highScore}</p>
                 </div>
                 <div className="card-placement">
-                    {/* <Card imageSource={flagArg} /> */}
-                    {/* <Card imageSource="https://images.dog.ceo/breeds/whippet/n02091134_14363.jpg" /> */}
                     {cardElements}
                     {/* {renderFlags()} */}
                 </div>
