@@ -1,5 +1,5 @@
 .card {
-    background-color: black;
+    background-color: wheat;
     width: fit-content;
     border: solid gray 3px;
     border-radius: 10px;
@@ -10,4 +10,8 @@
 .card-image {
     height: 150px;
     border-radius: 5px;
+}
+
+.true {
+    background-color: aquamarine;
 }
