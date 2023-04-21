@@ -16,20 +16,19 @@ export default function App() {
     const [clickCount, setClickCount] = React.useState(0);
 
     //render cards on load and re-render on each click in randomised order
-    const [initialRenderArray, setInitialRenderArray] =
-        React.useState(importedFlagsArray);
+    // const [initialRenderArray, setInitialRenderArray] =
+    //     React.useState(importedFlagsArray);
+    const initialRenderArray = importedFlagsArray;
 
     const [resetState, setResetState] = React.useState(false);
     // const [firstRenderState, setFirstRenderState] = React.useState(true);
-    // let resetState = false;
-    // let renderState = true;
 
     const [cardElementsState, setCardElementsState] = React.useState(
         initialRenderArray.map((country) => (
             <Card
                 imageSource={country.flag}
                 key={country.id}
-                handleClick={handleClick}
+                handleClick={(x) => handleClick(x)}
                 clicked={`${country.id} - array app`}
                 // clicked={`${country.id} ${country.wasClicked} - array app`}
                 reSet={false}
@@ -38,117 +37,68 @@ export default function App() {
     );
 
     // console.table(initialRenderArray);
+    console.log(currentScore, highScore);
 
-    function reRenderFlags(bool) {
-        // if false keep
-        // if (bool === "false") {
-        resetState = bool || "undef";
-        console.log(`rerend bool: ${resetState}`);
-
-        setCardElementsState(
-            initialRenderArray.map((country) => (
-                <Card
-                    imageSource={country.flag}
-                    key={country.id}
-                    handleClick={handleClick}
-                    clicked={`${country.id} - array app`}
-                    // clicked={`${country.id} ${country.wasClicked} - array app`}
-                    reSet={
-                        resetState === true
-                        // "true" ? true : false
-                        // trueOrFalse(resetState)
-                        // false
-                    }
-                    // value={`${country.wasClicked}`}
-                    // defaultValue={props.defVal}
-                />
-            ))
-        );
-
-        // if (
-        //     resetState === "true"
-        //     // resetState === "false" ||
-        //     // resetState === "undef"
-        // ) {
-        //     // -----------------------
-        //     console.log(`resetState rrf 3: ${bool}`);
-        //     // const cardElements =
-        //     setCardElementsState(
-        //         initialRenderArray.map((country) => (
-        //             <Card
-        //                 imageSource={country.flag}
-        //                 key={country.id}
-        //                 handleClick={handleClick}
-        //                 clicked={`${country.id} - array app`}
-        //                 // clicked={`${country.id} ${country.wasClicked} - array app`}
-        //                 reSet={true}
-        //                 // value={`${country.wasClicked}`}
-        //                 // defaultValue={props.defVal}
-        //             />
-        //         ))
-        //     );
-
-        //     //
-        //     // return cardElements;
-        // } else if (resetState === "false" || resetState === "undef") {
-        //     console.log(`resetState rrf 4 || 6: ${bool}`);
-        //     // const cardElements =
-        //     setCardElementsState(
-        //         initialRenderArray.map((country) => (
-        //             <Card
-        //                 imageSource={country.flag}
-        //                 key={country.id}
-        //                 handleClick={handleClick}
-        //                 clicked={`${country.id} - array app`}
-        //                 // clicked={`${country.id} ${country.wasClicked} - array app`}
-        //                 reSet={
-        //                     // resetState === "true" ||
-        //                     // // resetState === "undef" ||
-        //                     // resetState === true
-        //                     //     ? true
-        //                     //     : false
-        //                     // trueOrFalse(resetState)
-        //                     false
-        //                 }
-        //                 // value={`${country.wasClicked}`}
-        //                 // defaultValue={props.defVal}
-        //             />
-        //         ))
-        //     );
-
-        //     // return cardElements;
-        // }
-    }
-
-    function updateScores(bool) {
+    const updateScores = (bool) => {
         // if (bool === false) {
+        let cs = Number(document.getElementById("currSc").textContent);
+        let hs = Number(document.getElementById("highSc").textContent);
+        let diff = hs - cs;
+        // let diff = squareOfDiff();
+        console.log(diff);
+
         setCurrentScore((prevScore) => (bool === "false" ? prevScore + 1 : 0));
         // } else {
         //     setCurrentScore(0);
         // }
 
-        if (currentScore >= highScore && bool === "false") {
+        if (
+            // currentScore >= highScore &&
+            bool === "false" &&
+            diff === 0
+        ) {
             updateHighScore();
         }
-    }
+        // console.log(`UPDATE SCORES: [${bool}]`);
+        //
+        console.log(`%ccs dom: ${cs}`, "background: lightgreen");
+        console.log(`%chs dom: ${hs}`, "background: lightgreen");
+        //
+        console.log(
+            `%c U.S. Curr ${currentScore} - why stuck at zero??`,
+            "background: lightgrey"
+        );
+        console.log(`U.S. High ${highScore}`);
+        console.log(`CONSOLE LOG @ updateScores`);
+    };
+    // console.log(`U.S. Curr ${currentScore}`);
+    // console.log(`U.S. High ${highScore}`);
 
     function updateHighScore() {
-        setHighScore((prevScore) => prevScore + 1);
+        setHighScore((prevScore) =>
+            prevScore === initialRenderArray.length ? prevScore : prevScore + 1
+        );
+        // console.log(`updateHighScore ${currentScore} <-- also stuck`);
+        console.log(`%cCONSOLE LOG @ updateHighScore`, "background: pink");
     }
 
     function handleClick(event) {
-        const bool = event.currentTarget.getAttribute("value");
+        if (event === undefined) {
+            console.log("event undefined");
+            return;
+        }
+        const bool = event.currentTarget.getAttribute("value") || "false";
         updateScores(bool);
         clickLoop();
         if (bool === "true") {
-            console.log("string");
+            // console.log("string");
             setResetState((prevState) => !prevState);
             setCardElementsState(
                 initialRenderArray.map((country) => (
                     <Card
                         imageSource={country.flag}
                         key={country.id}
-                        handleClick={handleClick}
+                        handleClick={(x) => handleClick(x)}
                         clicked={`${country.id} - array app`}
                         // clicked={`${country.id} ${country.wasClicked} - array app`}
                         reSet={false}
@@ -156,14 +106,14 @@ export default function App() {
                 ))
             );
         } else {
-            console.log("boolean");
+            // console.log("boolean");
             // setResetState((prevState) => !prevState);
             setCardElementsState(
                 initialRenderArray.map((country) => (
                     <Card
                         imageSource={country.flag}
                         key={country.id}
-                        handleClick={handleClick}
+                        handleClick={(x) => handleClick(x)}
                         clicked={`${country.id} - array app`}
                         // clicked={`${country.id} ${country.wasClicked} - array app`}
                         reSet={true}
@@ -171,35 +121,15 @@ export default function App() {
                 ))
             );
         }
-        // setFirstRenderState(false);
-        // resetState = bool;
-        // console.log(`resetState in HandleClick: ${resetState}`);
-        // if (resetState === "false") {
-        //     console.log(`string false`);
-        // } else if (resetState === "true") {
-        //     console.log(`string true`);
-        // }
-        // console.log(resetState);
-        // if (bool === "true") {
-        //     setResetState(true);
-        //     console.log(`resetState: ${resetState}`);
-        //     reRenderFlags();
-        //     // setResetState(false);
-        //     console.log(`resetState: ${resetState}`);
-        // } else {
-        //     reRenderFlags();
-        // }
-        // console.log(resetState);
-        // renderFlags();
-        // randomiseArrayOrder(initialRenderArray);
 
-        console.log(event.target);
+        // console.log(event.target);
         // console.log(event.currentTarget.getAttribute("value"));
         // console.log(bool);
         // console.log(event.target["data-value"]);
-        console.table(`%c** ${bool} **`, "background: lightgreen");
+        // console.table(`%c** ${bool} **`, "background: lightgreen");
+        console.log(`CONSOLE LOG @ handleClick`);
     }
-    // console.log(currentScore, highScore);
+    console.log(currentScore, highScore);
 
     function randomiseArrayOrder(array) {
         let currentIndex = array.length,
@@ -217,22 +147,32 @@ export default function App() {
                 array[currentIndex],
             ];
         }
+        console.log(`CONSOLE LOG @ randomiseArray`);
 
         return array;
     }
 
     function clickLoop() {
         setClickCount((prevState) => prevState + 1);
+        console.log(`CONSOLE LOG @ clickLoop`);
     }
 
     React.useEffect(() => {
-        console.log("useEffect");
+        // console.log("useEffect");
         // clickLoop();
         randomiseArrayOrder(initialRenderArray);
+        // console.log(`eff ${currentScore}`);
+        // console.log(`eff ${highScore}`);
+        console.log(`CONSOLE LOG @ useEffect`);
+        // let cs = Number(document.getElementById("currSc").textContent);
+        // console.log(`cs dom: ${cs}`);
+        // let hs = document.getElementById("highSc").textContent;
+        // console.log(`hs dom: ${hs}`);
+
         // reRenderFlags();
         // setResetState(false);
         // console.log("useEffect end");
-    }, [currentScore, initialRenderArray, clickCount]);
+    }, [currentScore, initialRenderArray, highScore, clickCount]);
 
     return (
         <div className="App">
@@ -240,8 +180,12 @@ export default function App() {
             <Header />
             <main>
                 <div className="scoreboard">
-                    <p>Current score : {currentScore}</p>
-                    <p>High score : {highScore}</p>
+                    <p>
+                        Current score : <span id="currSc">{currentScore}</span>
+                    </p>
+                    <p>
+                        High score : <span id="highSc">{highScore}</span>
+                    </p>
                 </div>
                 <div className="card-placement">
                     {/* {cardElements} */}
