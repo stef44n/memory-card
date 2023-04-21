@@ -21,14 +21,14 @@ export default function Card(props) {
         //     setClickedState(false);
         //     console.log(`thisBool 2: ${bool}`);
         // }
-        console.log(`%c props.reSet: ${props.reSet}`, "background: orange");
-        console.log(`%c bool: ${bool}`, "background: orange");
-        console.log(`clickedState: ${clickedState}`);
+        // console.log(`%c props.reSet: ${props.reSet}`, "background: orange");
+        // console.log(`%c bool: ${bool}`, "background: orange");
+        // console.log(`clickedState: ${clickedState}`);
         if (thisBool === true) {
-            console.log(`thisBool 1: ${bool}`);
+            // console.log(`thisBool 1: ${bool}`);
             // setClickedState(false);
         } else if (thisBool === false) {
-            console.log(`thisBool 2: ${bool}`);
+            // console.log(`thisBool 2: ${bool}`);
             setClickedState(true);
         } else if (thisBool === "true") {
             console.log(`thisBool 3: ${bool}`);
@@ -45,11 +45,11 @@ export default function Card(props) {
             onClick={props.handleClick}
         >
             {/*render card*/}
-            <h1>{`${clickedState}`}</h1>
-            <p>
-                {props.clicked}
-                {/* {`${props.clicked}`} */}
-            </p>
+            {/* <h1>{`${clickedState}`}</h1> */}
+            {/* <p> */}
+            {/* {props.clicked} */}
+            {/* {`${props.clicked}`} */}
+            {/* </p> */}
             <img
                 className="card-image"
                 src={props.imageSource}
