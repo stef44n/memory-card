@@ -16,13 +16,10 @@ export default function App() {
 
     const [clickCount, setClickCount] = React.useState(0);
 
-    //render cards on load and re-render on each click in randomised order
-    // const [initialRenderArray, setInitialRenderArray] =
-    //     React.useState(importedFlagsArray);
+    //render cards on load
     const initialRenderArray = importedFlagsArray;
 
     const [resetState, setResetState] = React.useState(false);
-    // const [firstRenderState, setFirstRenderState] = React.useState(true);
 
     const [cardElementsState, setCardElementsState] = React.useState(
         initialRenderArray.map((country) => (
@@ -31,28 +28,24 @@ export default function App() {
                 key={country.id}
                 handleClick={(x) => handleClick(x)}
                 clicked={`${country.id} - array app`}
-                // clicked={`${country.id} ${country.wasClicked} - array app`}
                 reSet={false}
             />
         ))
     );
 
-    // console.table(initialRenderArray);
-    console.log(currentScore, highScore);
+    // console.log(currentScore, highScore);
 
     const updateScores = (bool) => {
-        // if (bool === false) {
+        // get values from DOM
         let cs = Number(document.getElementById("currSc").textContent);
         let hs = Number(document.getElementById("highSc").textContent);
         let diff = hs - cs;
         // let diff = squareOfDiff();
-        console.log(diff);
-
+        // console.log(diff);
+        // if card wasnt clicked then increment / else reset
         setCurrentScore((prevScore) => (bool === "false" ? prevScore + 1 : 0));
-        // } else {
-        //     setCurrentScore(0);
-        // }
 
+        // if card wasnt clicked AND current and high are equal then update
         if (
             // currentScore >= highScore &&
             bool === "false" &&
@@ -60,27 +53,21 @@ export default function App() {
         ) {
             updateHighScore();
         }
-        // console.log(`UPDATE SCORES: [${bool}]`);
-        //
-        console.log(`%ccs dom: ${cs}`, "background: lightgreen");
-        console.log(`%chs dom: ${hs}`, "background: lightgreen");
-        //
-        console.log(
-            `%c U.S. Curr ${currentScore} - why stuck at zero??`,
-            "background: lightgrey"
-        );
-        console.log(`U.S. High ${highScore}`);
-        console.log(`CONSOLE LOG @ updateScores`);
+        // console.log(`%ccs dom: ${cs}`, "background: lightgreen");
+        // console.log(`%chs dom: ${hs}`, "background: lightgreen");
+        // console.log(
+        //     `%c U.S. Curr ${currentScore} - why stuck at zero??`,
+        //     "background: lightgrey"
+        // );
+        // console.log(`CONSOLE LOG @ updateScores`);
     };
-    // console.log(`U.S. Curr ${currentScore}`);
-    // console.log(`U.S. High ${highScore}`);
 
     function updateHighScore() {
         setHighScore((prevScore) =>
             prevScore === initialRenderArray.length ? prevScore : prevScore + 1
         );
         // console.log(`updateHighScore ${currentScore} <-- also stuck`);
-        console.log(`%cCONSOLE LOG @ updateHighScore`, "background: pink");
+        // console.log(`%cCONSOLE LOG @ updateHighScore`, "background: pink");
     }
 
     function handleClick(event) {
@@ -92,7 +79,6 @@ export default function App() {
         updateScores(bool);
         clickLoop();
         if (bool === "true") {
-            // console.log("string");
             setResetState((prevState) => !prevState);
             setCardElementsState(
                 initialRenderArray.map((country) => (
@@ -101,14 +87,11 @@ export default function App() {
                         key={country.id}
                         handleClick={(x) => handleClick(x)}
                         clicked={`${country.id} - array app`}
-                        // clicked={`${country.id} ${country.wasClicked} - array app`}
                         reSet={false}
                     />
                 ))
             );
         } else {
-            // console.log("boolean");
-            // setResetState((prevState) => !prevState);
             setCardElementsState(
                 initialRenderArray.map((country) => (
                     <Card
@@ -116,7 +99,6 @@ export default function App() {
                         key={country.id}
                         handleClick={(x) => handleClick(x)}
                         clicked={`${country.id} - array app`}
-                        // clicked={`${country.id} ${country.wasClicked} - array app`}
                         reSet={true}
                     />
                 ))
@@ -128,9 +110,9 @@ export default function App() {
         // console.log(bool);
         // console.log(event.target["data-value"]);
         // console.table(`%c** ${bool} **`, "background: lightgreen");
-        console.log(`CONSOLE LOG @ handleClick`);
+        // console.log(`CONSOLE LOG @ handleClick`);
     }
-    console.log(currentScore, highScore);
+    // console.log(currentScore, highScore);
 
     function randomiseArrayOrder(array) {
         let currentIndex = array.length,
@@ -148,31 +130,22 @@ export default function App() {
                 array[currentIndex],
             ];
         }
-        console.log(`CONSOLE LOG @ randomiseArray`);
+        // console.log(`CONSOLE LOG @ randomiseArray`);
 
         return array;
     }
 
     function clickLoop() {
         setClickCount((prevState) => prevState + 1);
-        console.log(`CONSOLE LOG @ clickLoop`);
+        // console.log(`CONSOLE LOG @ clickLoop`);
     }
 
     React.useEffect(() => {
-        // console.log("useEffect");
-        // clickLoop();
+        // randomise order on each render
         randomiseArrayOrder(initialRenderArray);
         // console.log(`eff ${currentScore}`);
         // console.log(`eff ${highScore}`);
-        console.log(`CONSOLE LOG @ useEffect`);
-        // let cs = Number(document.getElementById("currSc").textContent);
-        // console.log(`cs dom: ${cs}`);
-        // let hs = document.getElementById("highSc").textContent;
-        // console.log(`hs dom: ${hs}`);
-
-        // reRenderFlags();
-        // setResetState(false);
-        // console.log("useEffect end");
+        // console.log(`CONSOLE LOG @ useEffect`);
     }, [currentScore, initialRenderArray, highScore, clickCount]);
 
     return (
@@ -189,12 +162,8 @@ export default function App() {
                     </p>
                 </div>
                 <div className="card-placement">
-                    {/* {cardElements} */}
                     {resetState && cardElementsState}
                     {!resetState && cardElementsState}
-                    {/* {firstRenderState && cardElementsState}
-                    {!firstRenderState && cardElementsState} */}
-                    {/* {renderState && reRenderFlags()} */}
                 </div>
             </main>
             <Footer />
