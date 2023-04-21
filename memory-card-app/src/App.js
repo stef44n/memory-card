@@ -1,5 +1,6 @@
 import "./styles/App.css";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Card from "./components/Card";
 import React from "react";
 
@@ -196,6 +197,7 @@ export default function App() {
                     {/* {renderState && reRenderFlags()} */}
                 </div>
             </main>
+            <Footer />
         </div>
     );
 }
